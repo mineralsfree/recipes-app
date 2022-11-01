@@ -12,7 +12,7 @@ class FridgeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: const BottomNavBar(index: 2),
-      body: Center(),
+      body: const Center(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
