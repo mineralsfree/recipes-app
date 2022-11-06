@@ -4,7 +4,8 @@ import 'package:front/screens.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 class FridgeScreen extends StatelessWidget {
-  const FridgeScreen({Key? key}) : super(key: key);
+  final String jwt;
+  const FridgeScreen({Key? key, this.jwt = ''}) : super(key: key);
 
   static const routeName = '/fridge';
 
