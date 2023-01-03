@@ -15,14 +15,11 @@ class BottomNavBar extends StatelessWidget{
       unselectedItemColor: Colors.black.withAlpha(100),
       items: [
         BottomNavigationBarItem(
-            icon: Container(
-              margin: const EdgeInsets.only(left: 50),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, HomeScreen.routeName);
-                },
-                icon: const Icon(Icons.account_circle),
-              ),
+            icon: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, HomeScreen.routeName);
+              },
+              icon: const Icon(Icons.account_circle),
             ),
             label: 'Home'),
         BottomNavigationBarItem(
@@ -34,15 +31,12 @@ class BottomNavBar extends StatelessWidget{
             ),
             label: 'Search'),
         BottomNavigationBarItem(
-            icon: Container(
-              margin: const EdgeInsets.only(right: 50),
-              child: IconButton(
-                onPressed: () {
-                  print('No profile screen yet');
-                  Navigator.pushNamed(context, FridgeScreen.routeName);
-                },
-                icon: const Icon(FridgeIcon.fridge_icon),
-              ),
+            icon: IconButton(
+              onPressed: () {
+                print('No profile screen yet');
+                Navigator.pushNamed(context, FridgeScreen.routeName);
+              },
+              icon: const Icon(FridgeIcon.fridge_icon),
             ),
             label: 'Person')
       ],

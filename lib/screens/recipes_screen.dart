@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Recipe>> fetchRecipe() async {
   List<Recipe> recipes = [];
-  final response = await http.get(Uri.parse('http://localhost:3000/recipes'));
+  final response = await http.get(Uri.parse('http://localhost:5000/recipes'));
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {

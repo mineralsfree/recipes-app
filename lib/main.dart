@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:front/model/IngredientModel.dart';
 import 'package:front/screens/signup_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'screens.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => IngredientModel(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,18 +19,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Recipes front',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/fridge',
+          primarySwatch: Colors.blue,
+          buttonTheme: const ButtonThemeData(
+            minWidth: 40.0,
+          )),
+      initialRoute: LoginScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         RecipesScreen.routeName: (context) => const RecipesScreen(),
         FridgeScreen.routeName: (context) => const FridgeScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen()
-
       },
     );
   }
-
 }
