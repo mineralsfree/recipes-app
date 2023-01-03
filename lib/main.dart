@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front/screens/signup_screen.dart';
+
 import 'screens.dart';
 
 void main() {
@@ -16,11 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/fridge',
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         RecipesScreen.routeName: (context) => const RecipesScreen(),
-        FridgeScreen.routeName: (context) => const FridgeScreen()
+        FridgeScreen.routeName: (context) => const FridgeScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
+        SignUpScreen.routeName: (context) => const SignUpScreen()
 
       },
     );
