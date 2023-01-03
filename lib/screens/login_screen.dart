@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import '../widgets/custom_form_field.dart';
+import 'package:flutter/foundation.dart';
 
-const SERVER_IP = "https://wg-forge-back.herokuapp.com";
+const SERVER_IP = "http://localhost:5000";
 const storage = FlutterSecureStorage();
 
 class LoginScreen extends StatefulWidget {
@@ -18,11 +19,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen> {
-  Future<String?> attemptLogIn(String username, String password) async {
-    var res = await http.post(Uri.parse("$SERVER_IP/api/user/auth"),
+  Future<Map<String, dynamic>?> attemptLogIn(String username, String password) async {
+    var res = await http.post(Uri.parse("$SERVER_IP/api/auth/login"),
         headers: {"Content-Type": "application/json"},
         body: json.encode({"email": username, "password": password}));
-    if (res.statusCode == 200) return res.body;
+    if (res.statusCode == 200) return jsonDecode(res.body);
     return null;
   }
 
@@ -41,6 +42,7 @@ class _LoginState extends State<LoginScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text("Login Page"),
         ),
         body: Form(
@@ -95,9 +97,13 @@ class _LoginState extends State<LoginScreen> {
                   if (_formKey.currentState!.validate()) {
                     var username = _usernameController.text;
                     var password = _passwordController.text;
-                    var jwt = await attemptLogIn(username, password);
-                    if (jwt != null) {
+                    var data = await attemptLogIn(username, password);
+                    if (data != null) {
+                      String jwt = data["user"]["access"];
+                      debugPrint('movieTitle: $jwt');
                       storage.write(key: "jwt", value: jwt);
+                      var key = await storage.read(key: "jwt");
+                      debugPrint('key: $key');
                       Navigator.push(
                           context,
                           MaterialPageRoute(

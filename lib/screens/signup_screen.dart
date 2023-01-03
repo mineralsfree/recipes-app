@@ -19,7 +19,7 @@ class _SignUpState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   Future<String?> attemptSignUp(String username, String password) async {
-    var res = await http.post(Uri.parse("$SERVER_IP/api/user/register"),
+    var res = await http.post(Uri.parse("$SERVER_IP/api/auth/register"),
         headers: {"Content-Type": "application/json"},
         body: json.encode({"email": username, "password": password}));
     if (res.statusCode == 200) return res.body;
