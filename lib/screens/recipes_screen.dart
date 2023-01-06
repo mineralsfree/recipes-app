@@ -6,6 +6,8 @@ import 'package:front/widgets/bottom_nav_bar.dart';
 import 'package:front/widgets/image_container.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/recipe_card.dart';
+
 Future<List<Recipe>> fetchRecipe() async {
   List<Recipe> recipes = [];
   final response = await http.get(Uri.parse('http://localhost:5000/api/recipes/?size=10&page=1'));
@@ -64,40 +66,40 @@ class _RecipesScreenState extends State<RecipesScreen> {
   }
 }
 
-class RecipeCard extends StatelessWidget {
-  @override
-  const RecipeCard({Key? key, required this.recipe}) : super(key: key);
-
-  final Recipe recipe;
-
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, RecipesScreen.routeName);
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ImageContainer(
-              height: 350,
-                width: MediaQuery.of(context).size.width,
-                imageUrl: "http://localhost:5000/imgs/default.png"),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              maxLines: 2,
-              recipe.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold, height: 1.5),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class RecipeCard extends StatelessWidget {
+//   @override
+//   const RecipeCard({Key? key, required this.recipe}) : super(key: key);
+//
+//   final Recipe recipe;
+//
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return Container(
+//       child: InkWell(
+//         onTap: () {
+//           Navigator.pushNamed(context, RecipesScreen.routeName);
+//         },
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             ImageContainer(
+//               height: 350,
+//                 width: MediaQuery.of(context).size.width,
+//                 imageUrl: "http://localhost:5000/imgs/default.png"),
+//             const SizedBox(
+//               height: 10,
+//             ),
+//             Text(
+//               maxLines: 2,
+//               recipe.name,
+//               style: Theme.of(context)
+//                   .textTheme
+//                   .bodyLarge!
+//                   .copyWith(fontWeight: FontWeight.bold, height: 1.5),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

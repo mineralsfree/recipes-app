@@ -13,7 +13,7 @@ Future<http.Response> updateIngredient(int id, int count) async {
   var key = await storage.read(key: "jwt");
 
   return http.put(
-    Uri.parse('http://localhost:5000/api/user_ingredients/put'),
+    Uri.parse('http://localhost:5000/api/user_ingredients'),
     headers: <String, String>{
       'Authorization': 'Bearer $key',
       'Content-Type': 'application/json; charset=UTF-8',

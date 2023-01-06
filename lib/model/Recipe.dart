@@ -2,7 +2,7 @@ class Recipe {
   int recipeId;
   String name;
   String instructions;
-  String ingrReadable;
+  List<String> ingrReadable;
   int time;
   int serves;
   String category;
@@ -42,14 +42,14 @@ class Recipe {
       recipeId: json['recipe_id'] as int,
       name: json['name'] as String,
       instructions: json['instructions'] as String,
-      ingrReadable: json['ingr_readable'] as String,
+      ingrReadable: json['ingr_readable'].split(',') as List<String>,
       time: json['time'] as int,
       serves: json['serves'] as int,
       category: json['category'] as String,
       energy: json['energy'] as double,
       fat: json['fat'] as double,
       protein: json['protein'] as double,
-      salt: json['salt'] as double,
+      salt: json['salt'] as double ,
       saturates: json['saturates'] as double,
       sugars: json['sugars'] as double,
       fatLight: json['fat_light'] as String,
