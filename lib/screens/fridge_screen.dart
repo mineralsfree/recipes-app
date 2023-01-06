@@ -12,7 +12,6 @@ import '../widgets/ingredient_card.dart';
 Future<List<Ingredient>> fetchIngredients() async {
   List<Ingredient> ingredients = [];
   var key = await storage.read(key: "jwt");
-
   final response = await http.get(
       Uri.parse('http://localhost:5000/api/user_ingredients'),
       headers: {"Authorization": 'Bearer $key'});
@@ -56,14 +55,12 @@ class _FridgeScreenState extends State<FridgeScreen> {
             future: futureIngredients,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return Container(
-                  child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context, int index) {
-                        return IngredientCard(ingredient: snapshot.data[index]);
-                      }),
-                );
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return IngredientCard(ingredient: snapshot.data[index]);
+                    });
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
