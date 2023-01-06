@@ -8,9 +8,12 @@ class Ingredient {
   final double fat;
   final double sug;
   final double carbs;
+  final double pro;
   final String unit;
   final String date;
   final int step;
+  final int weight_per_unit;
+  final int? quantity_increased_by;
 
   Ingredient({
     required this.ingr_id,
@@ -20,14 +23,19 @@ class Ingredient {
     required this.fat,
     required this.sug,
     required this.carbs,
+    required this.pro,
     required this.unit,
     required this.step,
     required this.date,
+    required this.weight_per_unit,
+    this.quantity_increased_by,
     this.quantity = 0,
   });
-  void changeQuantity(int q){
+
+  void changeQuantity(int q) {
     quantity = q;
   }
+
   // static List<Ingredient> ingredients = [
   //   Ingredient(
   //       ingr_id: 1,
@@ -43,17 +51,23 @@ class Ingredient {
   // ];
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     debugPrint(json.toString());
+    if (json['unit'] == 'unit') {
+      json['unit'] = "pcs";
+    }
+
     return Ingredient(
-      ingr_id: json['ingr_id'],
-      date: json['date'] ?? "",
-      quantity: json['quantity'].toInt() ?? 0,
-      name: json['name'] ?? "",
-      img_url: json['img_url'] ?? 'https://i.imgur.com/ERZ6kqR_d.webp?maxwidth=760&fidelity=grand',
-      fat: json['fat'],
-      sug: json['sug'],
-      carbs: json['sod'],
-      unit: json['unit'] ?? "g",
-      step: json['step'].toInt(),
-    );
+        ingr_id: json['ingr_id'],
+        date: json['date'] ?? "",
+        quantity: json['quantity']?.toInt() ?? 0,
+        name: json['name'] ?? "",
+        img_url: json['img_url'] ?? 'http://localhost:5000/imgs/default.png',
+        fat: json['fat'],
+        sug: json['sug'],
+        carbs: json['sod'],
+        pro: json['pro'],
+        unit: json['unit'] ?? "g",
+        weight_per_unit: json['weight_per_unit'],
+        step: json['step'].toInt(),
+        quantity_increased_by: json['quantity_increased_by']);
   }
 }

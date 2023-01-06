@@ -14,7 +14,8 @@ class IngredientModel extends ChangeNotifier {
   _list.clear();
   }
   void replaceAll(List<Ingredient> list) {
-
+    removeAll();
+    debugPrint("replaceAll");
     for (var ingredient in list) {
       add(ingredient);
     }

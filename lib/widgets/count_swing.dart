@@ -13,7 +13,7 @@ Future<http.Response> updateIngredient(int id, int count) async {
   var key = await storage.read(key: "jwt");
 
   return http.put(
-    Uri.parse('http://localhost:5000/api/user_ingredients/bigput'),
+    Uri.parse('http://localhost:5000/api/user_ingredients/put'),
     headers: <String, String>{
       'Authorization': 'Bearer $key',
       'Content-Type': 'application/json; charset=UTF-8',
@@ -30,11 +30,17 @@ Widget CountSwing(Ingredient ingredient, BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _decrementButton(ingredient, context),
-          Text(
-            '${ingredient.quantity}',
-            style: const TextStyle(fontSize: 18.0),
+          SizedBox(
+            width: 58,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                '${ingredient.quantity}, ${ingredient.unit}',
+                style: const TextStyle(fontSize: 18.0),
+              ),
+            ),
           ),
-          Text(", ${ingredient.unit}"),
+
           _incrementButton(ingredient, context),
         ],
       ),
