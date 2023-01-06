@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Recipe>> fetchRecipe() async {
   List<Recipe> recipes = [];
-  final response = await http.get(Uri.parse('http://localhost:5000/recipes'));
+  final response = await http.get(Uri.parse('http://localhost:5000/api/recipes/?size=10&page=1'));
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
@@ -83,14 +83,13 @@ class RecipeCard extends StatelessWidget {
             ImageContainer(
               height: 350,
                 width: MediaQuery.of(context).size.width,
-                imageUrl:
-                    recipe.img_url),
+                imageUrl: "http://localhost:5000/imgs/default.png"),
             const SizedBox(
               height: 10,
             ),
             Text(
               maxLines: 2,
-              recipe.title,
+              recipe.name,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!

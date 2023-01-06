@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:front/screens.dart';
 import 'package:front/widgets/bottom_nav_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const routeName = '/';
 
+  @override
+  State<StatefulWidget> createState() => _HomeScreenState();
+
+}
+class _HomeScreenState extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,4 +26,5 @@ class HomeScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
     );
   }
+
 }

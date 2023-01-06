@@ -54,12 +54,12 @@ class IngredientCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: 155,
+                              width: 150,
                               child: Column(
                                 children: [
                                   Row(
                                     children: const [
-                                      Text("Fruit"),
+                                      // Text("Fruit"),
                                     ],
                                   ),
                                   Row(
@@ -77,8 +77,10 @@ class IngredientCard extends StatelessWidget {
                                       Colors.black54, "fat"),
                                   Nutrition(ingredient.sug, Colors.grey[100]!,
                                       Colors.black54, "sugar"),
-                                  Nutrition(ingredient.carbs, Colors.grey[100]!,
-                                      Colors.black54, "carbs"),
+                                  // Nutrition(ingredient.carbs, Colors.grey[100]!,
+                                  //     Colors.black54, "carbs"),
+                                  Nutrition(ingredient.pro, Colors.grey[100]!,
+                                      Colors.black54, "protein"),
                                 ],
                               ),
                             )
@@ -100,7 +102,7 @@ class IngredientCard extends StatelessWidget {
   Row Nutrition(
       double value, Color background, Color progressColor, String label) {
     return Row(children: <Widget>[
-      SizedBox(width: 40, child: Text(label)),
+      SizedBox(width: 44, child: Text(label)),
       Expanded(
         child: Column(
           children: [
