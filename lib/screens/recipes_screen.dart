@@ -7,10 +7,14 @@ import 'package:front/widgets/image_container.dart';
 import 'package:http/http.dart' as http;
 
 import '../widgets/recipe_card.dart';
+import 'login_screen.dart';
 
 Future<List<Recipe>> fetchRecipe() async {
   List<Recipe> recipes = [];
-  final response = await http.get(Uri.parse('http://localhost:5000/api/recipes/?size=10&page=1'));
+  var key = await storage.read(key: "jwt");
+  final response = await http.get(
+      Uri.parse('http://localhost:5000/api/recipes/?size=100&page=1'),
+      headers: {"Authorization": 'Bearer $key'});
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
