@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front/model/IngredientModel.dart';
+import 'package:front/screens/favorite_screen.dart';
 import 'package:front/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
           )),
       initialRoute: LoginScreen.routeName,
       routes: {
-        HomeScreen.routeName: (context) => const HomeScreen(),
+        HistoryScreen.routeName: (context) => const HistoryScreen(),
+        FavoritesScreen.routeName: (context) => const FavoritesScreen(),
         RecipesScreen.routeName: (context) => const RecipesScreen(),
         FridgeScreen.routeName: (context) => const FridgeScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),

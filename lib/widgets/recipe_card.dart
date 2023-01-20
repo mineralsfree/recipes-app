@@ -1,8 +1,33 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:front/constants/size_constants.dart';
 import 'package:front/model/Recipe.dart';
 import 'package:front/screens/recipe_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import "package:front/screens/login_screen.dart";
+
+Future<http.Response> postFavorites(int id, bool fav) async {
+  var key = await storage.read(key: "jwt");
+  if (fav) {
+    return http.post(
+      Uri.parse('http://localhost:5000/api/user_favorites/'),
+      headers: <String, String>{
+        'Authorization': 'Bearer $key',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{'Id': id}),
+    );
+  } else {
+    return http.delete(
+      Uri.parse('http://localhost:5000/api/user_favorites/'),
+      headers: <String, String>{
+        'Authorization': 'Bearer $key',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{'Id': id}),
+    );
+  }
+}
 
 class RecipeCard extends StatefulWidget {
   final Recipe recipe;
@@ -21,7 +46,7 @@ class _RecipeCardState extends State<RecipeCard> {
   void initState() {
     super.initState();
     recipe = widget.recipe;
-    inFav = false;
+    inFav = widget.recipe.in_favorites;
   }
 
   @override
@@ -52,8 +77,8 @@ class _RecipeCardState extends State<RecipeCard> {
                         topLeft: Radius.circular(Sizes.dimen_10),
                         topRight: Radius.circular(Sizes.dimen_10)),
                     child: Image.network(
-                      'http://localhost:5000/imgs/default.png',
-                      height: 200,
+                      recipe.img_url,
+                      height: 350,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fill,
                       // if the image is null
@@ -100,10 +125,11 @@ class _RecipeCardState extends State<RecipeCard> {
         Padding(
             padding: const EdgeInsets.only(left: 14),
             child: IconButton(
-                onPressed: () => {
+                onPressed: () async {
+                  await postFavorites(recipe.recipeId, !inFav);
                       setState(() {
                         inFav = !inFav;
-                      })
+                      });
                     },
                 icon: Icon(inFav ? Icons.star : Icons.star_border,
                     color: const Color(0xFFFFC107)))),
