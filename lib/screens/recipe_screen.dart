@@ -12,7 +12,7 @@ import 'login_screen.dart';
 
 Future<http.Response> postCooked(int id, bool cooked) async {
   var key = await storage.read(key: "jwt");
-  if (cooked){
+  if (cooked) {
     return http.post(
       Uri.parse('http://localhost:5000/api/user_history/'),
       headers: <String, String>{
@@ -31,7 +31,6 @@ Future<http.Response> postCooked(int id, bool cooked) async {
       body: jsonEncode(<String, dynamic>{'Id': id}),
     );
   }
-
 }
 
 class RecipeScreen extends StatefulWidget {
@@ -69,13 +68,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // backgroundColor: Colors.transparent,
-          // leading: IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.menu, color: Colors.white),
-          // ),
-          title: const Text("Recipe")),
+      appBar: AppBar(title: const Text("Recipe")),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -148,8 +141,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
           ],
         ),
       ),
-      // bottomNavigationBar: const BottomNavBar(index: 0),
-      // extendBodyBehindAppBar: true,
     );
   }
 }

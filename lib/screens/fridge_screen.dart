@@ -49,7 +49,7 @@ class _FridgeScreenState extends State<FridgeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavBar(index: 2),
+      bottomNavigationBar: const BottomNavBar(index: 3),
       body: Center(
           child: FutureBuilder<List<Ingredient>>(
             future: futureIngredients,
@@ -79,8 +79,8 @@ class _FridgeScreenState extends State<FridgeScreen> {
                 });
           });
         },
-        child: Text('Add'),
         backgroundColor: Colors.red[500],
+        child: const Text('Add'),
       ),
     );
   }

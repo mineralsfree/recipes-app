@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:front/screens/home_screen.dart';
+import 'package:front/screens/history_screen.dart';
 import 'package:front/screens/recipes_screen.dart';
 import 'package:front/presentation/fridge_icon_icons.dart';
 import 'package:front/screens/fridge_screen.dart';
+import 'package:front/screens/favorite_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({Key? key, required this.index}) : super(key: key);
@@ -13,18 +14,26 @@ class BottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: index,
       selectedItemColor: Colors.black,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
       unselectedItemColor: Colors.black.withAlpha(100),
-      items: [
+      items:  <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             icon: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, HomeScreen.routeName);
+                Navigator.pushNamed(context, FavoritesScreen.routeName);
               },
               icon: const Icon(Icons.star_border),
             ),
-            label: 'Home'),
+            label: 'Favorites'),
+        BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, HistoryScreen.routeName);
+              },
+              icon: const Icon(Icons.history),
+            ),
+            label: 'History'),
         BottomNavigationBarItem(
             icon: IconButton(
               onPressed: () {
@@ -32,7 +41,7 @@ class BottomNavBar extends StatelessWidget {
               },
               icon: const Icon(Icons.food_bank),
             ),
-            label: 'Search'),
+            label: 'Main'),
         BottomNavigationBarItem(
             icon: IconButton(
               onPressed: () {
@@ -40,7 +49,7 @@ class BottomNavBar extends StatelessWidget {
               },
               icon: const Icon(FridgeIcon.fridge_icon),
             ),
-            label: 'Person')
+            label: 'Fridge'),
       ],
     );
   }

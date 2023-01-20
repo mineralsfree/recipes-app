@@ -101,9 +101,7 @@ class _LoginState extends State<LoginScreen> {
                     if (data != null) {
                       String jwt = data["user"]["access"];
                       debugPrint('movieTitle: $jwt');
-                      storage.write(key: "jwt", value: jwt);
-                      var key = await storage.read(key: "jwt");
-                      debugPrint('key: $key');
+                      await storage.write(key: "jwt", value: jwt);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

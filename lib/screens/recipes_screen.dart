@@ -13,7 +13,7 @@ Future<List<Recipe>> fetchRecipe() async {
   List<Recipe> recipes = [];
   var key = await storage.read(key: "jwt");
   final response = await http.get(
-      Uri.parse('http://localhost:5000/api/recipes/?size=100&page=1'),
+      Uri.parse('http://localhost:5000/api/recipes/recommend?size=15&page=1'),
       headers: {"Authorization": 'Bearer $key'});
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
@@ -46,19 +46,23 @@ class _RecipesScreenState extends State<RecipesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavBar(index: 1),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text("Recipes recommendation screen"),
+        ),
+      bottomNavigationBar: const BottomNavBar(index: 2),
       body: Center(
         child: FutureBuilder<List<Recipe>>(
           future: futureRecipe,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return Container(
-                  child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context, int index) {
-                        return RecipeCard(recipe: snapshot.data[index]);
-                      }));
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  scrollDirection: Axis.vertical,
+
+                  itemBuilder: (BuildContext context, int index) {
+                    return RecipeCard(recipe: snapshot.data[index]);
+                  });
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -70,40 +74,4 @@ class _RecipesScreenState extends State<RecipesScreen> {
   }
 }
 
-// class RecipeCard extends StatelessWidget {
-//   @override
-//   const RecipeCard({Key? key, required this.recipe}) : super(key: key);
-//
-//   final Recipe recipe;
-//
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     return Container(
-//       child: InkWell(
-//         onTap: () {
-//           Navigator.pushNamed(context, RecipesScreen.routeName);
-//         },
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             ImageContainer(
-//               height: 350,
-//                 width: MediaQuery.of(context).size.width,
-//                 imageUrl: "http://localhost:5000/imgs/default.png"),
-//             const SizedBox(
-//               height: 10,
-//             ),
-//             Text(
-//               maxLines: 2,
-//               recipe.name,
-//               style: Theme.of(context)
-//                   .textTheme
-//                   .bodyLarge!
-//                   .copyWith(fontWeight: FontWeight.bold, height: 1.5),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
