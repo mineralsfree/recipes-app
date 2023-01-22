@@ -6,7 +6,7 @@ import '../widgets/count_swing.dart';
 
 class IngredientCard extends StatelessWidget {
   const IngredientCard({Key? key, required this.ingredient}) : super(key: key);
-  final Ingredient ingredient;
+  final Recipe ingredient;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Ingredient {
+class Recipe {
   final int ingr_id;
   final String name;
   int quantity;
@@ -15,7 +15,7 @@ class Ingredient {
   final int weight_per_unit;
   final int? quantity_increased_by;
 
-  Ingredient({
+  Recipe({
     required this.ingr_id,
     required this.name,
     this.img_url =
@@ -49,13 +49,12 @@ class Ingredient {
   //       date: '2022-12-17',
   //       unit: "g"),
   // ];
-  factory Ingredient.fromJson(Map<String, dynamic> json) {
-    debugPrint(json.toString());
+  factory Recipe.fromJson(Map<String, dynamic> json) {
     if (json['unit'] == 'unit') {
       json['unit'] = "pcs";
     }
 
-    return Ingredient(
+    return Recipe(
         ingr_id: json['ingr_id'],
         date: json['date'] ?? "",
         quantity: json['quantity']?.toInt() ?? 0,

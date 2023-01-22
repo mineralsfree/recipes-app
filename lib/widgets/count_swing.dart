@@ -13,7 +13,7 @@ Future<http.Response> updateIngredient(int id, int count) async {
   var key = await storage.read(key: "jwt");
 
   return http.put(
-    Uri.parse('http://localhost:5000/api/user_ingredients'),
+    Uri.parse('http://localhost:5000/api/user_ingredients/'),
     headers: <String, String>{
       'Authorization': 'Bearer $key',
       'Content-Type': 'application/json; charset=UTF-8',
@@ -22,7 +22,7 @@ Future<http.Response> updateIngredient(int id, int count) async {
   );
 }
 
-Widget CountSwing(Ingredient ingredient, BuildContext context) {
+Widget CountSwing(Recipe ingredient, BuildContext context) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(0.0),
@@ -48,7 +48,7 @@ Widget CountSwing(Ingredient ingredient, BuildContext context) {
   );
 }
 
-Widget _incrementButton(Ingredient ingredient, BuildContext context) {
+Widget _incrementButton(Recipe ingredient, BuildContext context) {
   var ingredients = context.read<IngredientModel>();
 
   return SizedBox(
@@ -72,7 +72,7 @@ Widget _incrementButton(Ingredient ingredient, BuildContext context) {
   );
 }
 
-Widget _decrementButton(Ingredient ingredient, BuildContext context) {
+Widget _decrementButton(Recipe ingredient, BuildContext context) {
   var ingredients = context.read<IngredientModel>();
   return SizedBox(
     width: 40,

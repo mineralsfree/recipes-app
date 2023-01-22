@@ -25,8 +25,7 @@ Future<List<Recipe>> fetchUserFavorites() async {
 }
 
 class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({Key? key}) : super(key: key);
-  static const routeName = '/favorites';
+  const FavoritesScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _FavoritesState();
@@ -46,7 +45,7 @@ class _FavoritesState extends State<FavoritesScreen> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Your favorite recipes"),
+          title: const Text("Favorite recipes"),
         ),
       body: FutureBuilder<List<Recipe>>(
         future: _userFavorites,
@@ -64,7 +63,6 @@ class _FavoritesState extends State<FavoritesScreen> {
           return const CircularProgressIndicator();
         },
       ),
-      bottomNavigationBar: const BottomNavBar(index: 0),
       extendBodyBehindAppBar: true,
     );
   }

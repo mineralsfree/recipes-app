@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:front/screens.dart';
+import 'package:front/screens/main_screen.dart';
 import 'package:front/screens/signup_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'dart:convert';
 import '../widgets/custom_form_field.dart';
 import 'package:flutter/foundation.dart';
@@ -105,7 +107,7 @@ class _LoginState extends State<LoginScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FridgeScreen(jwt: jwt)));
+                              builder: (context) => MainScreen()));
                     } else {
                       displayDialog(context, "An Error Occurred",
                           "No account was found matching that username and password");
@@ -123,7 +125,13 @@ class _LoginState extends State<LoginScreen> {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, SignUpScreen.routeName);
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: const SignUpScreen(key: Key("signup")),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    // pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                  // Navigator.pushNamed(context, SignUpScreen.routeName);
                 },
                 child: const Text('New User? Create Account'))
           ])),
