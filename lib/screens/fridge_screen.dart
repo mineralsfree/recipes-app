@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:front/model/Ingredient.dart';
 import 'package:front/screens.dart';
 import 'dart:async';
-
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import '../widgets/bottom_nav_bar.dart';
+import '../model/IngredientModel.dart';
 import '../widgets/ingredient_card.dart';
 
-Future<List<Ingredient>> fetchIngredients() async {
-  List<Ingredient> ingredients = [];
+Future<List<Recipe>> fetchIngredients() async {
+  List<Recipe> ingredients = [];
   var key = await storage.read(key: "jwt");
   final response = await http.get(
       Uri.parse('http://localhost:5000/api/user_ingredients'),
@@ -18,7 +17,7 @@ Future<List<Ingredient>> fetchIngredients() async {
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
-      ingredients.add(Ingredient.fromJson(rec));
+      ingredients.add(Recipe.fromJson(rec));
     }
     return ingredients;
   } else {
@@ -38,7 +37,7 @@ class FridgeScreen extends StatefulWidget {
 }
 
 class _FridgeScreenState extends State<FridgeScreen> {
-  late Future<List<Ingredient>> futureIngredients;
+  late Future<List<Recipe>> futureIngredients;
 
   @override
   void initState() {
@@ -48,40 +47,45 @@ class _FridgeScreenState extends State<FridgeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var ingredients = context.watch<IngredientModel>();
     return Scaffold(
-      bottomNavigationBar: const BottomNavBar(index: 3),
-      body: Center(
-          child: FutureBuilder<List<Ingredient>>(
-            future: futureIngredients,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return IngredientCard(ingredient: snapshot.data[index]);
-                    });
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const AddIngredientScreen(),
-              )).then((_) {
-                setState(() {
-                  futureIngredients = fetchIngredients();
-                });
-          });
-        },
-        backgroundColor: Colors.red[500],
-        child: const Text('Add'),
-      ),
-    );
+        body: Column(children: [
+          Expanded(
+            child: FutureBuilder(
+                future: futureIngredients,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    ingredients.items = snapshot.data;
+
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: ingredients.items.length,
+                        itemBuilder: (context, index) {
+                          return IngredientCard(
+                              ingredient: ingredients.items[index]);
+                        });
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  return const Center();
+                }),
+          )
+        ]));
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => const AddIngredientScreen(),
+      //         )).then((_) {
+      //           setState(() {
+      //             futureIngredients = fetchIngredients();
+      //           });
+      //     });
+      //   },
+      //   backgroundColor: Colors.red[500],
+      //   child: const Text('Add'),
+      // ),
   }
 }

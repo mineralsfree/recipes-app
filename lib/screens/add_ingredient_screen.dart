@@ -11,17 +11,17 @@ import '../widgets/ingredient_card.dart';
 import 'login_screen.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-Future<List<Ingredient>> fetchPossibleIngredients() async {
+Future<List<Recipe>> fetchPossibleIngredients() async {
   var key = await storage.read(key: "jwt");
 
-  List<Ingredient> ingredients = [];
+  List<Recipe> ingredients = [];
   final response = await http.get(
-      Uri.parse('http://localhost:5000/api/ingredients/?size=100&page=1'),
+      Uri.parse('http://localhost:5000/api/ingredients/?size=300&page=1'),
       headers: {"Authorization": 'Bearer $key'});
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
-      ingredients.add(Ingredient.fromJson(rec));
+      ingredients.add(Recipe.fromJson(rec));
     }
     return ingredients;
   } else {
@@ -29,10 +29,10 @@ Future<List<Ingredient>> fetchPossibleIngredients() async {
   }
 }
 
-Future<List<Ingredient>> searchIngredients(String q) async {
+Future<List<Recipe>> searchIngredients(String q) async {
   var key = await storage.read(key: "jwt");
 
-  List<Ingredient> ingredients = [];
+  List<Recipe> ingredients = [];
   final response = await http.get(
       Uri.parse(
           'http://localhost:5000/api/ingredients/search?string=$q&size=100&page=1'),
@@ -40,7 +40,7 @@ Future<List<Ingredient>> searchIngredients(String q) async {
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
-      ingredients.add(Ingredient.fromJson(rec));
+      ingredients.add(Recipe.fromJson(rec));
     }
 
     return ingredients;
@@ -49,10 +49,10 @@ Future<List<Ingredient>> searchIngredients(String q) async {
   }
 }
 
-Future<List<Ingredient>> addIngredientByEANCode(String ean) async {
+Future<List<Recipe>> addIngredientByEANCode(String ean) async {
   var key = await storage.read(key: "jwt");
 
-  List<Ingredient> ingredients = [];
+  List<Recipe> ingredients = [];
   final response = await http.put(
     Uri.parse('http://127.0.0.1:5000/api/user_ingredients/add_by_ean'),
     headers: {
@@ -64,7 +64,7 @@ Future<List<Ingredient>> addIngredientByEANCode(String ean) async {
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
     for (var rec in jsonData) {
-      ingredients.add(Ingredient.fromJson(rec));
+      ingredients.add(Recipe.fromJson(rec));
     }
     return ingredients;
   } else {
@@ -80,20 +80,19 @@ class AddIngredientScreen extends StatefulWidget {
 }
 
 class _AddIngredientScreenState extends State<AddIngredientScreen> {
-  late Future<List<Ingredient>> futureIngredients;
+  late Future<List<Recipe>> futureIngredients;
   bool _searchBoolean = false; //add
-  final searchTextController = TextEditingController();
+  late TextEditingController searchTextController;
 
   @override
   void initState() {
     super.initState();
+    searchTextController = TextEditingController();
     futureIngredients = fetchPossibleIngredients();
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
     searchTextController.dispose();
     super.dispose();
   }
@@ -105,17 +104,6 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
       onWillPop: () async => false,
       child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.ac_unit),
-              onPressed:() {
-                searchTextController.text = "";
-                ingredients.replaceAll([]);
-                setState(() {
-                  _searchBoolean = false;
-                });
-                Navigator.pop(context, true);
-              },
-            ),
             actions: <Widget>[
               !_searchBoolean
                   ? IconButton(
@@ -189,9 +177,8 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                   future: futureIngredients,
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
-                      if (ingredients.items.isEmpty) {
-                        ingredients.replaceAll(snapshot.data);
-                      }
+                      ingredients.replaceAll(snapshot.data);
+
                       return ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
@@ -203,7 +190,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
-                    return const CircularProgressIndicator();
+                    return const Center();
                   }),
             )
           ])),

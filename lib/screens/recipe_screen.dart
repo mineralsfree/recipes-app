@@ -42,7 +42,7 @@ class RecipeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _RecipeScreenState();
 }
 
-class _RecipeScreenState extends State<RecipeScreen> {
+class _RecipeScreenState extends State<RecipeScreen>{
   bool inCocked = false;
   late Recipe recipe;
 

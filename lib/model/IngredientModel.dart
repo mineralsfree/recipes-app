@@ -4,25 +4,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:front/model/Ingredient.dart';
 
 class IngredientModel extends ChangeNotifier {
-  final List<Ingredient> _list = [];
+   List<Recipe> _list = [];
 
-  UnmodifiableListView<Ingredient> get items => UnmodifiableListView(_list);
-  void add(Ingredient ing) {
+  UnmodifiableListView<Recipe> get items => UnmodifiableListView(_list);
+  void add(Recipe ing) {
     _list.add(ing);
   }
   void removeAll() {
   _list.clear();
   }
-  void replaceAll(List<Ingredient> list) {
+  set items(List<Recipe> list){
+    _list = list;
+  }
+  void replaceAll(List<Recipe> list) {
     removeAll();
-    debugPrint("replaceAll");
     for (var ingredient in list) {
       add(ingredient);
     }
     notifyListeners();
   }
 
-  void updateItem(Ingredient ing, int count) {
+  void updateItem(Recipe ing, int count) {
+    debugPrint(_list.toString());
     final index = _list.indexWhere((element) => element.ingr_id == ing.ingr_id);
     _list[index].changeQuantity(count);
     notifyListeners();
