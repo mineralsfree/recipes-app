@@ -64,7 +64,6 @@ class _HistoryState extends State<HistoryScreen> {
           return const CircularProgressIndicator();
         },
       ),
-      bottomNavigationBar: const BottomNavBar(index: 1),
       extendBodyBehindAppBar: true,
     );
   }
