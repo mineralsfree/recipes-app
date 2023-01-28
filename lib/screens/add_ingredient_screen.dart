@@ -16,7 +16,7 @@ Future<List<Recipe>> fetchPossibleIngredients() async {
 
   List<Recipe> ingredients = [];
   final response = await http.get(
-      Uri.parse('http://localhost:5000/api/ingredients/?size=100&page=1'),
+      Uri.parse('http://localhost:5000/api/ingredients/?size=300&page=1'),
       headers: {"Authorization": 'Bearer $key'});
   if (response.statusCode == 200) {
     final jsonData = json.decode(response.body);
